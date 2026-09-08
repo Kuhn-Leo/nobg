@@ -5,7 +5,7 @@ import { SITE_URL, SITE_NAME, pathFor } from "./site.js";
 import { LANGS } from "./langs.js";
 import { USECASES } from "./usecases.js";
 import { LEGAL_PAGES } from "./legal.js";
-import { initGA, trackPageview } from "./ga.js";
+import { trackPageview } from "./ga.js";
 
 const MAX_SIZE = 20 * 1024 * 1024;
 
@@ -136,11 +136,6 @@ export default function App() {
   const [dragOver, setDragOver] = useState(false);
   const fileRef = useRef(null);
   const srcBlob = useRef(null);
-
-  /* GA init（必须先于 trackPageview 的 effect 声明） */
-  useEffect(() => {
-    initGA();
-  }, []);
 
   /* 进页面 2 秒后后台预加载 AI 模型：用户挑图的时间正好覆盖下载，
      首次使用体感从"选完图等几分钟"变成"直接出结果"。已缓存的会瞬间跳过。 */
