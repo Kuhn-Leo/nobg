@@ -2,7 +2,8 @@
 // 用法：在 Vercel 项目环境变量中设置 VITE_GA_MEASUREMENT_ID（如 G-XXXXXXXXXX）
 // 未设置时所有函数静默跳过，本地/预览环境零副作用。
 
-const GA_ID = import.meta.env.VITE_GA_MEASUREMENT_ID || "";
+// GA4 测量 ID（默认硬编码；如需覆盖可设置环境变量 VITE_GA_MEASUREMENT_ID）
+const GA_ID = import.meta.env.VITE_GA_MEASUREMENT_ID || "G-S5GJF24RF1";
 
 export function initGA() {
   if (!GA_ID || window.gtag) return;
