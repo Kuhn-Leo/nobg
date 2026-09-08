@@ -1,0 +1,467 @@
+// 用例落地页矩阵：每条 = 一个长尾关键词簇（用例 × 语言）
+// 新增用例只需在此添加，路由/链接/sitemap 自动覆盖
+export const USECASES = [
+  {
+    slug: "photoshop",
+    chip: { zh: "PS 抠图替代", en: "Photoshop Alternative", es: "Alternativa a PS", pt: "Alternativa ao PS", de: "Photoshop-Alternative", ja: "PSの代替", id: "Alternatif PS" },
+    zh: {
+      title: "PS 抠图替代方案 — 3 秒在线去除图片背景（免费）",
+      desc: "不想装 Photoshop 或嫌 PS 抠图麻烦？用 NoBg Now 在浏览器 3 秒抠图：免费、无需注册、无需修图基础，一键导出透明 PNG。",
+      h1: "Photoshop 抠图太麻烦？试试 3 秒在线抠图",
+      sub: "无需安装、无需订阅、无需修图基础——上传图片，AI 自动完成选区、抠图、导出全过程。",
+      stepsTitle: "三步完成，比 PS 快 100 倍",
+      steps: [
+        "上传或拖入图片（无需打开任何软件）",
+        "AI 自动识别主体并抠除背景，发丝级精度",
+        "下载透明 PNG，可直接拖入 PS 继续精修或合成",
+      ],
+      faqs: [
+        ["和 Photoshop 抠图比哪个效果好？", "复杂场景下 PS 的手动调整更可控，但 90% 的日常抠图（人像、产品、证件照）AI 自动效果已经足够好，而且快得多。"],
+        ["支持 PSD 吗？", "导出的是透明 PNG，可直接拖入 PSD 作为图层使用，不损失画质。"],
+      ],
+    },
+    en: {
+      title: "Photoshop Background Removal Alternative — 3-Second Online Cutout (Free)",
+      desc: "Skip Photoshop. Remove image backgrounds in 3 seconds right in your browser — free, no signup, no design skills needed. Export transparent PNG instantly.",
+      h1: "Photoshop cutout too slow? Do it in 3 seconds",
+      sub: "No installs, no subscription, no design skills — upload an image and AI handles selection, masking and export automatically.",
+      stepsTitle: "Three steps, 100x faster than Photoshop",
+      steps: [
+        "Upload or drop your image (no software needed)",
+        "AI detects the subject and removes the background with hair-level precision",
+        "Download a transparent PNG and drop it into Photoshop for fine-tuning",
+      ],
+      faqs: [
+        ["Is it as good as Photoshop?", "For complex scenes Photoshop gives more manual control, but for 90% of everyday cutouts (people, products, ID photos) the AI result is already excellent — and much faster."],
+        ["Does it support PSD?", "It exports transparent PNG, which you can drag straight into a PSD as a layer without quality loss."],
+      ],
+    },
+    es: {
+      title: "Alternativa a Photoshop para recortar imágenes — quitar fondo en 3 segundos",
+      desc: "¿Cansado de recortar en Photoshop? Elimina el fondo en 3 segundos en tu navegador: gratis, sin registro, PNG transparente al instante.",
+      h1: "¿Recortar en Photoshop es lento? Hazlo en 3 segundos",
+      sub: "Sin instalaciones, sin suscripción, sin conocimientos de diseño — sube una imagen y la IA hace todo.",
+      stepsTitle: "Tres pasos, 100 veces más rápido que Photoshop",
+      steps: [
+        "Sube o arrastra tu imagen (sin instalar nada)",
+        "La IA detecta el sujeto y quita el fondo con precisión de cabello",
+        "Descarga el PNG transparente y ajústalo en Photoshop si quieres",
+      ],
+      faqs: [
+        ["¿Es tan bueno como Photoshop?", "En escenas complejas Photoshop da más control manual, pero para el 90% de los recortes diarios (personas, productos, fotos de carnet) la IA ya es excelente — y mucho más rápida."],
+        ["¿Soporta PSD?", "Exporta PNG transparente: arrástralo a tu PSD como capa sin pérdida de calidad."],
+      ],
+    },
+    pt: {
+      title: "Alternativa ao Photoshop para recortar imagens — fundo removido em 3 segundos",
+      desc: "Cansado de recortar no Photoshop? Remova o fundo em 3 segundos no navegador: grátis, sem cadastro, PNG transparente na hora.",
+      h1: "Recortar no Photoshop é lento? Faça em 3 segundos",
+      sub: "Sem instalação, sem assinatura, sem conhecimento de design — envie a imagem e a IA faz tudo.",
+      stepsTitle: "Três passos, 100 vezes mais rápido que o Photoshop",
+      steps: [
+        "Envie ou arraste sua imagem (sem instalar nada)",
+        "A IA detecta o sujeito e remove o fundo com precisão de fios de cabelo",
+        "Baixe o PNG transparente e refine no Photoshop se quiser",
+      ],
+      faqs: [
+        ["Fica tão bom quanto o Photoshop?", "Em cenas complexas o Photoshop dá mais controle manual, mas para 90% dos recortes do dia a dia (pessoas, produtos, fotos 3x4) a IA já é excelente — e muito mais rápida."],
+        ["Suporta PSD?", "Exporta PNG transparente: arraste direto para o PSD como camada, sem perder qualidade."],
+      ],
+    },
+    de: {
+      title: "Photoshop-Freistellen-Alternative — Hintergrund in 3 Sekunden entfernen (gratis)",
+      desc: "Keine Lust auf Photoshop? Freistelle Bilder in 3 Sekunden direkt im Browser: gratis, ohne Anmeldung, sofortiges transparentes PNG.",
+      h1: "Freistellen in Photoshop zu langsam? Geht in 3 Sekunden",
+      sub: "Keine Installation, kein Abo, keine Vorkenntnisse — Bild hochladen, die KI erledigt den Rest.",
+      stepsTitle: "Drei Schritte, 100-mal schneller als Photoshop",
+      steps: [
+        "Bild hochladen oder reinziehen (keine Software nötig)",
+        "Die KI erkennt das Motiv und entfernt den Hintergrund haargenau",
+        "Transparentes PNG herunterladen und bei Bedarf in Photoshop nachbearbeiten",
+      ],
+      faqs: [
+        ["Ist das so gut wie Photoshop?", "Bei komplexen Motiven gibt Photoshop mehr manuelle Kontrolle, aber für 90 % der täglichen Freisteller (Personen, Produkte, Passbilder) ist das KI-Ergebnis bereits exzellent — und viel schneller."],
+        ["Wird PSD unterstützt?", "Es wird ein transparentes PNG exportiert — direkt als Ebene in die PSD ziehen, ohne Qualitätsverlust."],
+      ],
+    },
+    ja: {
+      title: "Photoshopいらず — 3秒で背景を削除（無料）",
+      desc: "Photoshopを開くのはもう大変。ブラウザ上で3秒で背景を削除：無料、登録不要、透過PNGを即座に書き出し。",
+      h1: "Photoshopでの切り抜き、3秒で終わらせる",
+      sub: "インストール不要、サブスク不要、デザイン知識不要 — 画像をアップするだけでAIがすべて処理します。",
+      stepsTitle: "3ステップ、Photoshopの100倍速い",
+      steps: [
+        "画像をアップロード（ソフトのインストール不要）",
+        "AIが被写体を自動検出し、髪の毛単位で背景を削除",
+        "透過PNGをダウンロード、PSDに貼って仕上げも自由",
+      ],
+      faqs: [
+        ["Photoshopと比べて品質は？", "複雑なシーンではPhotoshopの手動調整が有利ですが、日常の切り抜き（人物、商品、証明写真）の90%はAIで十分な品質です — しかもはるかに速い。"],
+        ["PSDは使えますか？", "透過PNGで書き出せるので、そのままPSDのレイヤーとして読み込めます。画質は劣化しません。"],
+      ],
+    },
+    id: {
+      title: "Alternatif Photoshop untuk memotong gambar — hapus background dalam 3 detik",
+      desc: "Capek memotong di Photoshop? Hapus background dalam 3 detik di browser: gratis, tanpa daftar, PNG transparan instan.",
+      h1: "Memotong di Photoshop lambat? Lakukan dalam 3 detik",
+      sub: "Tanpa instalasi, tanpa langganan, tanpa keahlian desain — unggah gambar, AI yang mengerjakan semuanya.",
+      stepsTitle: "Tiga langkah, 100 kali lebih cepat dari Photoshop",
+      steps: [
+        "Unggah atau tarik gambarnya (tanpa instal software)",
+        "AI mendeteksi objek dan menghapus background hingga detail rambut",
+        "Unduh PNG transparan dan sempurnakan di Photoshop jika perlu",
+      ],
+      faqs: [
+        ["Sebagus Photoshop?", "Untuk scene kompleks Photoshop memberi kontrol manual lebih, tapi untuk 90% pemotongan sehari-hari (orang, produk, foto identitas) hasil AI sudah sangat bagus — dan jauh lebih cepat."],
+        ["Mendukung PSD?", "Mengekspor PNG transparan — langsung tarik ke PSD sebagai layer tanpa kehilangan kualitas."],
+      ],
+    },
+  },
+  {
+    slug: "ecommerce",
+    chip: { zh: "电商白底图", en: "E-commerce Photos", es: "Fondo blanco", pt: "Fundo branco", de: "Weißer Hintergrund", ja: "白背景", id: "Foto produk" },
+    zh: {
+      title: "电商产品图白底图 — 免费在线抠图工具",
+      desc: "淘宝/亚马逊主图要求白底？上传产品照，AI 3 秒抠除杂乱背景，导出透明 PNG 自由合成白底图。免费无水印无需注册。",
+      h1: "电商产品白底图，3 秒搞定",
+      sub: "手机随手拍的产品照，AI 一键抠除杂乱背景，自由合成纯白底，满足各平台主图规范。",
+      stepsTitle: "从随手拍到合规主图",
+      steps: [
+        "上传手机拍摄的产品照",
+        "AI 自动抠除桌面、杂物等杂乱背景",
+        "下载透明 PNG，垫上纯白背景即可上架",
+      ],
+      faqs: [
+        ["符合淘宝/亚马逊主图要求吗？", "透明 PNG 可以自由合成纯白底（RGB 255,255,255），满足主流电商平台的主图规范。"],
+        ["会压缩画质吗？", "导出为无损 PNG，原尺寸输出，不压缩画质。"],
+      ],
+    },
+    en: {
+      title: "E-commerce Product Photo White Background — Free Online Background Remover",
+      desc: "Marketplace listings need white backgrounds? Upload a product photo, AI removes the cluttered background in 3 seconds and exports transparent PNG. Free, no watermark, no signup.",
+      h1: "Product white-background photos in 3 seconds",
+      sub: "Turn casual phone snapshots into compliant marketplace main images — AI removes messy backgrounds instantly.",
+      stepsTitle: "From snapshot to compliant listing",
+      steps: [
+        "Upload your product photo",
+        "AI removes the desk, clutter and messy background",
+        "Download transparent PNG and place it on a pure white background",
+      ],
+      faqs: [
+        ["Does it meet Amazon/eBay image requirements?", "Transparent PNG composites perfectly onto pure white (RGB 255,255,255), meeting main-image requirements of major marketplaces."],
+        ["Is quality reduced?", "No — lossless PNG export at the original resolution."],
+      ],
+    },
+    es: {
+      title: "Fotos de producto con fondo blanco — quitar fondo gratis",
+      desc: "¿El marketplace exige fondo blanco? Sube la foto del producto, la IA quita el fondo desordenado en 3 segundos y exporta PNG transparente. Gratis, sin registro.",
+      h1: "Fotos de producto con fondo blanco en 3 segundos",
+      sub: "De la foto con el móvil a la imagen principal compatible: la IA elimina fondos desordenados al instante.",
+      stepsTitle: "De la foto casual a la foto de catálogo",
+      steps: [
+        "Sube la foto del producto hecha con el móvil",
+        "La IA elimina mesa, desorden y fondo",
+        "Descarga el PNG transparente y ponlo sobre fondo blanco",
+      ],
+      faqs: [
+        ["¿Cumple los requisitos de Amazon/eBay?", "El PNG transparente se compone perfecto sobre blanco puro (RGB 255,255,255), cumpliendo los requisitos de imagen principal de los principales marketplaces."],
+        ["¿Se reduce la calidad?", "No — exportación PNG sin pérdida en la resolución original."],
+      ],
+    },
+    pt: {
+      title: "Foto de produto com fundo branco — remover fundo grátis",
+      desc: "O marketplace exige fundo branco? Envie a foto do produto, a IA remove o fundo bagunçado em 3 segundos e exporta PNG transparente. Grátis, sem cadastro.",
+      h1: "Foto de produto com fundo branco em 3 segundos",
+      sub: "Da foto de celular à imagem principal aprovada — a IA remove fundos bagunçados na hora.",
+      stepsTitle: "Da foto amadora à imagem de catálogo",
+      steps: [
+        "Envie a foto do produto feita no celular",
+        "A IA remove mesa, bagunça e fundo",
+        "Baixe o PNG transparente e aplique fundo branco",
+      ],
+      faqs: [
+        ["Atende aos requisitos da Amazon/Mercado Livre?", "O PNG transparente compõe perfeitamente sobre branco puro (RGB 255,255,255), atendendo às exigências de imagem principal dos principais marketplaces."],
+        ["Perde qualidade?", "Não — exportação PNG sem perdas na resolução original."],
+      ],
+    },
+    de: {
+      title: "Produktbilder mit weißem Hintergrund — Hintergrund kostenlos entfernen",
+      desc: "Der Marketplace verlangt weißen Hintergrund? Produktfoto hochladen, die KI entfernt den unruhigen Hintergrund in 3 Sekunden und exportiert ein transparentes PNG. Gratis, ohne Anmeldung.",
+      h1: "Produktbilder mit weißem Hintergrund in 3 Sekunden",
+      sub: "Vom Handy-Schnappschuss zum konformen Listing-Bild — die KI entfernt unsaubere Hintergründe sofort.",
+      stepsTitle: "Vom Schnappschuss zum Listing-Bild",
+      steps: [
+        "Produktfoto vom Handy hochladen",
+        "Die KI entfernt Tisch, Krimskrams und Hintergrund",
+        "Transparentes PNG herunterladen und auf Reinweiß setzen",
+      ],
+      faqs: [
+        ["Erfüllt es die Amazon-/eBay-Anforderungen?", "Das transparente PNG lässt sich perfekt auf Reinweiß (RGB 255,255,255) setzen und erfüllt die Hauptbild-Anforderungen der großen Marktplätze."],
+        ["Leidet die Qualität?", "Nein — verlustfreier PNG-Export in Originalauflösung."],
+      ],
+    },
+    ja: {
+      title: "商品画像の白背景を3秒で作成 — 無料の背景削除",
+      desc: "出品には白背景が必要？商品写真をアップすれば、AIが3秒で背景を除去し透過PNGで書き出し。無料・登録不要。",
+      h1: "商品画像の白背景、3秒で完成",
+      sub: "スマホで撮った写真から、プラットフォームの規定に合うメイン画像へ — AIが雑然とした背景を一瞬で除去します。",
+      stepsTitle: "撮影から出品用画像まで3ステップ",
+      steps: [
+        "スマホで撮った商品写真をアップロード",
+        "AIが机や雑多な背景を自動で除去",
+        "透過PNGをダウンロードして白背景に合成",
+      ],
+      faqs: [
+        ["Amazonやメルカリの画像規定を満たしますか？", "透過PNGは純白（RGB 255,255,255）に綺麗に合成でき、主要マーケットプレイスのメイン画像規定を満たせます。"],
+        ["画質は劣化しますか？", "いいえ — 元の解像度のまま可逆PNGで書き出します。"],
+      ],
+    },
+    id: {
+      title: "Foto produk background putih — hapus background gratis",
+      desc: "Marketplace mewajibkan background putih? Unggah foto produk, AI hapus background berantakan dalam 3 detik dan ekspor PNG transparan. Gratis, tanpa daftar.",
+      h1: "Foto produk background putih dalam 3 detik",
+      sub: "Dari foto HP menjadi gambar utama yang sesuai ketentuan — AI menghapus background berantakan seketika.",
+      stepsTitle: "Dari foto santai ke foto katalog",
+      steps: [
+        "Unggah foto produk dari HP",
+        "AI menghapus meja, barang berserakan, dan background",
+        "Unduh PNG transparan dan terapkan background putih",
+      ],
+      faqs: [
+        ["Memenuhi syarat Amazon/Shopee/Tokopedia?", "PNG transparan bisa digabung sempurna di atas putih murni (RGB 255,255,255), memenuhi ketentuan gambar utama marketplace utama."],
+        ["Kualitas berkurang?", "Tidak — ekspor PNG lossless dengan resolusi asli."],
+      ],
+    },
+  },
+  {
+    slug: "id-photo",
+    chip: { zh: "证件照换底色", en: "ID Photo Background", es: "Foto de carnet", pt: "Foto 3x4", de: "Passfoto", ja: "証明写真", id: "Foto formal" },
+    zh: {
+      title: "证件照换底色 — 免费在线一键换蓝底白底",
+      desc: "证件照换底色不求人：上传照片，AI 精准抠出人像（含发丝），导出透明 PNG 后自由垫蓝底/白底/红底。免费无需注册。",
+      h1: "证件照换底色，免费在线完成",
+      sub: "AI 精准识别发丝边缘，抠出干净人像，蓝底、白底、红底随意换。",
+      stepsTitle: "三步换底色",
+      steps: [
+        "上传证件照或自拍",
+        "AI 精准抠出人像，发丝细节不丢失",
+        "下载透明 PNG，垫上蓝/白/红纯色底即可使用",
+      ],
+      faqs: [
+        ["怎么把底色换成蓝底/白底/红底？", "导出透明 PNG 后，在 Word/PPT 或任意图片工具里垫上对应纯色背景即可。"],
+        ["能直接输出带底色的证件照吗？", "一键换底色功能正在开发中，目前通过透明 PNG + 纯色背景的方式同样可以实现。"],
+      ],
+    },
+    en: {
+      title: "ID Photo Background Change — Free Online Blue/White Background",
+      desc: "Change your ID photo background for free: AI precisely cuts out the portrait (including hair), export transparent PNG and place blue, white or red background. No signup.",
+      h1: "Change ID photo background, free and online",
+      sub: "Hair-level edge detection gives you a clean portrait cutout — switch to blue, white or red in seconds.",
+      stepsTitle: "Three steps to change the background",
+      steps: [
+        "Upload your ID photo or selfie",
+        "AI cuts out the portrait precisely, keeping hair details",
+        "Download transparent PNG and place blue/white/red background",
+      ],
+      faqs: [
+        ["How do I switch to blue/white/red?", "Export the transparent PNG, then place a solid-color layer behind it in Word, PowerPoint or any image editor."],
+        ["Can it output a finished ID photo directly?", "One-click color background export is on the roadmap; transparent PNG + solid background works today."],
+      ],
+    },
+    es: {
+      title: "Cambiar el fondo de la foto de carnet — azul, blanco o rojo gratis",
+      desc: "Cambia el fondo de tu foto de carnet gratis: la IA recorta el retrato con precisión (incluido el pelo), exporta PNG transparente y pon el color que necesites. Sin registro.",
+      h1: "Cambia el fondo de tu foto de carnet, gratis y online",
+      sub: "La IA detecta los bordes del cabello con precisión: retrato limpio y fondo azul, blanco o rojo en segundos.",
+      stepsTitle: "Tres pasos para cambiar el fondo",
+      steps: [
+        "Sube tu foto de carnet o selfie",
+        "La IA recorta el retrato sin perder detalle del cabello",
+        "Descarga el PNG transparente y pon el fondo azul/blanco/rojo",
+      ],
+      faqs: [
+        ["¿Cómo pongo el fondo azul, blanco o rojo?", "Exporta el PNG transparente y coloca un fondo de color sólido detrás en Word, PowerPoint o cualquier editor."],
+        ["¿Puede generar la foto terminada directamente?", "La exportación con fondo de color de un clic está en camino; con PNG transparente + fondo sólido ya funciona hoy."],
+      ],
+    },
+    pt: {
+      title: "Mudar o fundo da foto 3x4 — azul, branco ou vermelho grátis",
+      desc: "Mude o fundo da sua foto 3x4 de graça: a IA recorta o retrato com precisão (inclusive cabelo), exporta PNG transparente e você escolhe a cor. Sem cadastro.",
+      h1: "Mudar o fundo da foto 3x4, grátis e online",
+      sub: "Detecção de bordas fio a fio: recorte limpo do retrato e fundo azul, branco ou vermelho em segundos.",
+      stepsTitle: "Três passos para trocar o fundo",
+      steps: [
+        "Envie sua foto 3x4 ou selfie",
+        "A IA recorta o retrato mantendo os detalhes do cabelo",
+        "Baixe o PNG transparente e aplique fundo azul/branco/vermelho"],
+      faqs: [
+        ["Como aplicar fundo azul, branco ou vermelho?", "Exporte o PNG transparente e coloque uma cor sólida atrás no Word, PowerPoint ou qualquer editor."],
+        ["Já sai com o fundo colorido?", "A exportação com fundo colorido em um clique está no roteiro; com PNG transparente + cor sólida já funciona hoje."],
+      ],
+    },
+    de: {
+      title: "Passfoto-Hintergrund ändern — blau, weiß oder rot, kostenlos",
+      desc: "Ändere den Hintergrund deines Passfotos gratis: Die KI schneidet das Porträt präzise aus (inkl. Haare), exportiert ein transparentes PNG — du wählst die Farbe. Ohne Anmeldung.",
+      h1: "Passfoto-Hintergrund ändern — kostenlos und online",
+      sub: "Haargenaue Kantenerkennung für einen sauberen Cutout — blau, weiß oder rot in Sekunden.",
+      stepsTitle: "In drei Schritten zum neuen Hintergrund",
+      steps: [
+        "Passfoto oder Selfie hochladen",
+        "Die KI schneidet das Porträt mit Haardetails aus",
+        "Transparentes PNG herunterladen und blau/weiß/rot hinterlegen",
+      ],
+      faqs: [
+        ["Wie setze ich blau/weiß/rot dahinter?", "Transparentes PNG exportieren und in Word, PowerPoint oder einem Bildeditor eine einfarbige Fläche dahinterlegen."],
+        ["Gibt es das fertige Foto mit Farbe direkt?", "Ein-Klick-Farbexport ist geplant; mit transparentem PNG + Volltonfarbe funktioniert es heute schon."],
+      ],
+    },
+    ja: {
+      title: "証明写真の背景色を変更 — 青・白・赤を無料で",
+      desc: "証明写真の背景交換を無料で：AIが髪の毛まで精密に人物を切り抜き、透過PNGを書き出し。青・白・赤好きな色に。登録不要。",
+      h1: "証明写真の背景色を変更、無料で完結",
+      sub: "AIが髪の毛の輪郭まで精密に人物を切り抜き、青・白・赤の背景に自由に変更できます。",
+      stepsTitle: "3ステップで背景色を変更",
+      steps: [
+        "証明写真や自撮りをアップロード",
+        "AIが髪の毛のディテールを保ったまま人物を切り抜き",
+        "透過PNGをダウンロードして青/白/赤の背景を配置",
+      ],
+      faqs: [
+        ["青・白・赤の背景はどう付けますか？", "透過PNGを書き出し、WordやPowerPointなどで単色の背景を後ろに置くだけです。"],
+        ["色付きのまま直接書き出せますか？", "ワンクリックでの色付き書き出しは開発中です。透過PNG＋単色背景で今すぐ同じ結果が得られます。"],
+      ],
+    },
+    id: {
+      title: "Ganti background foto formal — biru, putih, atau merah gratis",
+      desc: "Ganti background foto formal gratis: AI memotong potret dengan presisi (termasuk rambut), ekspor PNG transparan, pilih warna sesuai kebutuhan. Tanpa daftar.",
+      h1: "Ganti background foto formal, gratis dan online",
+      sub: "Deteksi tepi hingga detail rambut: potret bersih dengan background biru, putih, atau merah dalam hitungan detik.",
+      stepsTitle: "Tiga langkah ganti background",
+      steps: [
+        "Unggah foto formal atau selfie",
+        "AI memotong potret tanpa kehilangan detail rambut",
+        "Unduh PNG transparan dan beri background biru/putih/merah",
+      ],
+      faqs: [
+        ["Cara memberi background biru/putih/merah?", "Ekspor PNG transparan lalu beri warna solid di belakangnya di Word, PowerPoint, atau editor apa pun."],
+        ["Bisa langsung jadi dengan warna?", "Ekspor sekali klik dengan warna sedang dikembangkan; dengan PNG transparan + warna solid sudah bisa dilakukan sekarang."],
+      ],
+    },
+  },
+  {
+    slug: "profile-picture",
+    chip: { zh: "头像抠图", en: "Profile Pictures", es: "Foto de perfil", pt: "Foto de perfil", de: "Profilbild", ja: "プロフィール", id: "Foto profil" },
+    zh: {
+      title: "头像抠图 — 免费 LinkedIn/微信头像背景去除",
+      desc: "给 LinkedIn、微信、游戏头像换个专业背景：上传照片 AI 3 秒抠图，导出透明 PNG 自由搭配渐变或纯色背景。免费无注册。",
+      h1: "免费抠图，做个专业感头像",
+      sub: "LinkedIn、简历、社交头像——去掉杂乱背景，人像瞬间专业。",
+      stepsTitle: "三步升级你的头像",
+      steps: [
+        "上传你的照片",
+        "AI 抠除杂乱背景，保留发丝级细节",
+        "下载透明 PNG，搭配任意背景色或渐变",
+      ],
+      faqs: [
+        ["照片会被上传到服务器吗？", "不会。AI 模型在浏览器本地运行，照片不经过任何服务器。"],
+        ["商用需要付费吗？", "个人使用完全免费；高清批量导出等进阶功能未来会以订阅形式提供。"],
+      ],
+    },
+    en: {
+      title: "Profile Picture Background Remover — Free LinkedIn/WeChat Avatar Cutout",
+      desc: "Give your LinkedIn or social avatar a professional look: AI removes the background in 3 seconds, export transparent PNG and add any gradient or color. Free, no signup.",
+      h1: "Free cutout for a professional profile picture",
+      sub: "LinkedIn, resumes, social avatars — remove the cluttered background and look instantly sharper.",
+      stepsTitle: "Three steps to upgrade your avatar",
+      steps: [
+        "Upload your photo",
+        "AI removes the messy background with hair-level detail",
+        "Download transparent PNG and add any background color or gradient",
+      ],
+      faqs: [
+        ["Are my photos uploaded to a server?", "No. The AI model runs locally in your browser — photos never touch a server."],
+        ["Is commercial use free?", "Personal use is free forever; HD batch export will be offered as a paid plan later."],
+      ],
+    },
+    es: {
+      title: "Quitar el fondo de tu foto de perfil — LinkedIn y redes gratis",
+      desc: "Dale un look profesional a tu foto de perfil: la IA quita el fondo en 3 segundos y exportas PNG transparente para poner el fondo que quieras. Gratis, sin registro.",
+      h1: "Recorta tu foto de perfil gratis",
+      sub: "LinkedIn, CV, redes sociales — quita el fondo desordenado y luce al instante más profesional.",
+      stepsTitle: "Tres pasos para mejorar tu foto",
+      steps: [
+        "Sube tu foto",
+        "La IA quita el fondo con detalle de cabello",
+        "Descarga el PNG transparente y añade el color o degradado que quieras",
+      ],
+      faqs: [
+        ["¿Se suben mis fotos a un servidor?", "No. El modelo de IA se ejecuta en tu navegador; las fotos nunca tocan un servidor."],
+        ["¿El uso comercial es gratis?", "El uso personal es gratis para siempre; la exportación HD por lotes será de pago más adelante."],
+      ],
+    },
+    pt: {
+      title: "Remover o fundo da foto de perfil — LinkedIn e redes grátis",
+      desc: "Deixe sua foto de perfil profissional: a IA remove o fundo em 3 segundos e exporta PNG transparente para você escolher o fundo. Grátis, sem cadastro.",
+      h1: "Recorte grátis para sua foto de perfil",
+      sub: "LinkedIn, currículo, redes sociais — remova o fundo bagunçado e pareça mais profissional na hora.",
+      stepsTitle: "Três passos para melhorar sua foto",
+      steps: [
+        "Envie sua foto",
+        "A IA remove o fundo com detalhe de cabelo",
+        "Baixe o PNG transparente e adicione a cor ou gradiente que quiser",
+      ],
+      faqs: [
+        ["Minhas fotos são enviadas a um servidor?", "Não. O modelo de IA roda no seu navegador; as fotos nunca tocam um servidor."],
+        ["O uso comercial é grátis?", "Uso pessoal é grátis para sempre; exportação HD em lote será paga no futuro."],
+      ],
+    },
+    de: {
+      title: "Profilbild-Hintergrund entfernen — LinkedIn & Co., kostenlos",
+      desc: "Gib deinem Profilbild den professionellen Look: Die KI entfernt den Hintergrund in 3 Sekunden, exportiert ein transparentes PNG — freie Farbwahl. Gratis, ohne Anmeldung.",
+      h1: "Kostenloses Freistellen für dein Profilbild",
+      sub: "LinkedIn, Lebenslauf, Social Media — unruhige Hintergründe entfernen und sofort professioneller wirken.",
+      stepsTitle: "In drei Schritten zum besseren Profilbild",
+      steps: [
+        "Foto hochladen",
+        "Die KI entfernt den Hintergrund mit Haardetails",
+        "Transparentes PNG herunterladen und Farbe/Verlauf frei wählen",
+      ],
+      faqs: [
+        ["Werden meine Fotos auf einen Server hochgeladen?", "Nein. Das KI-Modell läuft in deinem Browser — Fotos berühren nie einen Server."],
+        ["Ist die kommerzielle Nutzung kostenlos?", "Private Nutzung ist dauerhaft kostenlos; HD-Stapelverarbeitung wird später kostenpflichtig sein."],
+      ],
+    },
+    ja: {
+      title: "プロフィール画像の背景を削除 — LinkedIn・SNS対応・無料",
+      desc: "プロフィール写真をワンランク上へ：AIが3秒で背景を削除し、透過PNGで書き出し。好きな背景色やグラデーションを自由に設定。登録不要。",
+      h1: "プロフィール画像を無料で切り抜き",
+      sub: "LinkedIn、履歴書、SNSアイコン — 雑然とした背景を消して、一気にプロっぽく。",
+      stepsTitle: "3ステップでプロフィール画像をアップグレード",
+      steps: [
+        "写真をアップロード",
+        "AIが髪の毛のディテールを保って背景を削除",
+        "透過PNGをダウンロードして好きな背景に合成",
+      ],
+      faqs: [
+        ["写真はサーバーにアップロードされますか？", "いいえ。AIモデルはブラウザ内でローカル実行されるため、写真がサーバーに送信されることはありません。"],
+        ["商用利用も無料ですか？", "個人利用は永久無料です。HD一括書き出しは今後有料プランで提供予定です。"],
+      ],
+    },
+    id: {
+      title: "Hapus background foto profil — LinkedIn & media sosial gratis",
+      desc: "Tampilan foto profil lebih profesional: AI menghapus background dalam 3 detik, ekspor PNG transparan, bebas pilih warna atau gradasi. Gratis, tanpa daftar.",
+      h1: "Potong foto profil Anda secara gratis",
+      sub: "LinkedIn, CV, ikon media sosial — hilangkan background berantakan dan langsung terlihat lebih profesional.",
+      stepsTitle: "Tiga langkah upgrade foto profil",
+      steps: [
+        "Unggah foto Anda",
+        "AI menghapus background dengan detail rambut",
+        "Unduh PNG transparan dan tambahkan warna atau gradasi favorit",
+      ],
+      faqs: [
+        ["Apakah foto saya diunggah ke server?", "Tidak. Model AI berjalan di browser Anda — foto tidak pernah menyentuh server."],
+        ["Apakah penggunaan komersial gratis?", "Penggunaan pribadi gratis selamanya; ekspor HD massal akan menjadi fitur berbayar nanti."],
+      ],
+    },
+  },
+];

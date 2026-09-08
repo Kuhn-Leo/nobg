@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- 自动生成：node scripts/gen-sitemap.mjs（请勿手改） -->
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:xhtml="http://www.w3.org/1999/xhtml">
+  <url>
+    <loc>https://nobg.org//</loc>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://nobg.org//"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://nobg.org//"/>
+    <xhtml:link rel="alternate" hreflang="zh" href="https://nobg.org/zh//"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://nobg.org/es//"/>
+    <xhtml:link rel="alternate" hreflang="pt" href="https://nobg.org/pt//"/>
+    <xhtml:link rel="alternate" hreflang="de" href="https://nobg.org/de//"/>
+    <xhtml:link rel="alternate" hreflang="ja" href="https://nobg.org/ja//"/>
+    <xhtml:link rel="alternate" hreflang="id" href="https://nobg.org/id//"/>
+  </url>
+  <url>
+    <loc>https://nobg.org/photoshop/</loc>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://nobg.org/photoshop/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://nobg.org/photoshop/"/>
+    <xhtml:link rel="alternate" hreflang="zh" href="https://nobg.org/zh/photoshop/"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://nobg.org/es/photoshop/"/>
+    <xhtml:link rel="alternate" hreflang="pt" href="https://nobg.org/pt/photoshop/"/>
+    <xhtml:link rel="alternate" hreflang="de" href="https://nobg.org/de/photoshop/"/>
+    <xhtml:link rel="alternate" hreflang="ja" href="https://nobg.org/ja/photoshop/"/>
+    <xhtml:link rel="alternate" hreflang="id" href="https://nobg.org/id/photoshop/"/>
+  </url>
+  <url>
+    <loc>https://nobg.org/ecommerce/</loc>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://nobg.org/ecommerce/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://nobg.org/ecommerce/"/>
+    <xhtml:link rel="alternate" hreflang="zh" href="https://nobg.org/zh/ecommerce/"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://nobg.org/es/ecommerce/"/>
+    <xhtml:link rel="alternate" hreflang="pt" href="https://nobg.org/pt/ecommerce/"/>
+    <xhtml:link rel="alternate" hreflang="de" href="https://nobg.org/de/ecommerce/"/>
+    <xhtml:link rel="alternate" hreflang="ja" href="https://nobg.org/ja/ecommerce/"/>
+    <xhtml:link rel="alternate" hreflang="id" href="https://nobg.org/id/ecommerce/"/>
+  </url>
+  <url>
+    <loc>https://nobg.org/id-photo/</loc>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://nobg.org/id-photo/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://nobg.org/id-photo/"/>
+    <xhtml:link rel="alternate" hreflang="zh" href="https://nobg.org/zh/id-photo/"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://nobg.org/es/id-photo/"/>
+    <xhtml:link rel="alternate" hreflang="pt" href="https://nobg.org/pt/id-photo/"/>
+    <xhtml:link rel="alternate" hreflang="de" href="https://nobg.org/de/id-photo/"/>
+    <xhtml:link rel="alternate" hreflang="ja" href="https://nobg.org/ja/id-photo/"/>
+    <xhtml:link rel="alternate" hreflang="id" href="https://nobg.org/id/id-photo/"/>
+  </url>
+  <url>
+    <loc>https://nobg.org/profile-picture/</loc>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://nobg.org/profile-picture/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://nobg.org/profile-picture/"/>
+    <xhtml:link rel="alternate" hreflang="zh" href="https://nobg.org/zh/profile-picture/"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://nobg.org/es/profile-picture/"/>
+    <xhtml:link rel="alternate" hreflang="pt" href="https://nobg.org/pt/profile-picture/"/>
+    <xhtml:link rel="alternate" hreflang="de" href="https://nobg.org/de/profile-picture/"/>
+    <xhtml:link rel="alternate" hreflang="ja" href="https://nobg.org/ja/profile-picture/"/>
+    <xhtml:link rel="alternate" hreflang="id" href="https://nobg.org/id/profile-picture/"/>
+  </url>
+  <url>
+    <loc>https://nobg.org/terms/</loc>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://nobg.org/terms/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://nobg.org/terms/"/>
+    <xhtml:link rel="alternate" hreflang="zh" href="https://nobg.org/zh/terms/"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://nobg.org/es/terms/"/>
+    <xhtml:link rel="alternate" hreflang="pt" href="https://nobg.org/pt/terms/"/>
+    <xhtml:link rel="alternate" hreflang="de" href="https://nobg.org/de/terms/"/>
+    <xhtml:link rel="alternate" hreflang="ja" href="https://nobg.org/ja/terms/"/>
+    <xhtml:link rel="alternate" hreflang="id" href="https://nobg.org/id/terms/"/>
+  </url>
+  <url>
+    <loc>https://nobg.org/privacy/</loc>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://nobg.org/privacy/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://nobg.org/privacy/"/>
+    <xhtml:link rel="alternate" hreflang="zh" href="https://nobg.org/zh/privacy/"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://nobg.org/es/privacy/"/>
+    <xhtml:link rel="alternate" hreflang="pt" href="https://nobg.org/pt/privacy/"/>
+    <xhtml:link rel="alternate" hreflang="de" href="https://nobg.org/de/privacy/"/>
+    <xhtml:link rel="alternate" hreflang="ja" href="https://nobg.org/ja/privacy/"/>
+    <xhtml:link rel="alternate" hreflang="id" href="https://nobg.org/id/privacy/"/>
+  </url>
+</urlset>
