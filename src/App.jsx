@@ -1,13 +1,22 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 import { removeBackground, preload } from "@imgly/background-removal";
+import { downloadZip } from "client-zip";
 import { i18n } from "./i18n.js";
 import { SITE_URL, SITE_NAME, pathFor } from "./site.js";
 import { LANGS } from "./langs.js";
 import { USECASES } from "./usecases.js";
 import { LEGAL_PAGES } from "./legal.js";
-import { trackPageview } from "./ga.js";
+import { trackPageview, trackEvent } from "./ga.js";
 
 const MAX_SIZE = 20 * 1024 * 1024;
+const BATCH_FREE = 5; // 免费版每批上限（订阅上线后作为付费墙边界）
+const BG_COLORS = ["#ffffff", "#111827", "#9ca3af", "#3b82f6", "#ef4444", "#22c55e", "#f472b6", "#facc15", "#a855f7"];
+const BG_GRADIENTS = [
+  ["#8b5cf6", "#22d3ee"],
+  ["#f97316", "#ef4444"],
+  ["#38bdf8", "#a5f3fc"],
+  ["#22c55e", "#14532d"],
+];
 
 /* ---------- routing ---------- */
 
@@ -118,6 +127,15 @@ function CutLoader() {
   );
 }
 
+function loadImage(url) {
+  return new Promise((resolve, reject) => {
+    const img = new Image();
+    img.onload = () => resolve(img);
+    img.onerror = reject;
+    img.src = url;
+  });
+}
+
 /* ---------- app ---------- */
 
 export default function App() {
@@ -136,6 +154,10 @@ export default function App() {
   const [dragOver, setDragOver] = useState(false);
   const fileRef = useRef(null);
   const srcBlob = useRef(null);
+  const [bg, setBg] = useState("transparent"); // transparent | #hex | g:idx | blur
+  const [withShadow, setWithShadow] = useState(false);
+  const [composed, setComposed] = useState(null); // { key, url, blob } 合成后的预览/下载图
+  const [batch, setBatch] = useState(null); // { items: [{name,file,url,blob,status}], done }
 
   /* 进页面 2 秒后后台预加载 AI 模型：用户挑图的时间正好覆盖下载，
      首次使用体感从"选完图等几分钟"变成"直接出结果"。已缓存的会瞬间跳过。 */
@@ -226,6 +248,10 @@ export default function App() {
 
   const reset = useCallback(() => {
     setPhase("idle");
+    setBg("transparent");
+    setWithShadow(false);
+    setComposed(null);
+    setBatch(null);
     setResultUrl((old) => {
       if (old) URL.revokeObjectURL(old);
       return null;
@@ -236,14 +262,151 @@ export default function App() {
     });
   }, []);
 
+  /* ---------- 批量处理：串行队列 + 失败隔离 + ZIP 打包 ---------- */
+  const setItem = (idx, patch) =>
+    setBatch((b) => {
+      if (!b) return b;
+      const items = b.items.map((it, i) => (i === idx ? { ...it, ...patch } : it));
+      return { ...b, items };
+    });
+
+  const runOne = useCallback(async (file, idx) => {
+    try {
+      const blob = await removeBackground(file, { device: "cpu", output: { format: "image/png" } });
+      setItem(idx, { status: "done", url: URL.createObjectURL(blob), blob });
+    } catch (err) {
+      console.error(err);
+      setItem(idx, { status: "failed" });
+    }
+  }, []);
+
+  const startBatch = useCallback(
+    async (fileList) => {
+      const imgs = [...fileList].filter((f) => f.type.startsWith("image/") && f.size <= MAX_SIZE);
+      if (!imgs.length) return;
+      const capped = imgs.slice(0, BATCH_FREE);
+      if (imgs.length > BATCH_FREE) trackEvent("batch_limit_reached", { selected: imgs.length });
+      trackEvent("batch_started", { count: capped.length });
+      setPhase("batch");
+      setBatch({
+        items: capped.map((f) => ({ name: f.name, file: f, url: null, blob: null, status: "waiting" })),
+        done: false,
+      });
+      for (let i = 0; i < capped.length; i++) {
+        setItem(i, { status: "processing" });
+        await runOne(capped[i], i);
+      }
+      setBatch((b) => (b ? { ...b, done: true } : b));
+      trackEvent("batch_completed", { count: capped.length });
+    },
+    [runOne]
+  );
+
+  const retryOne = (idx) => {
+    const it = batch?.items[idx];
+    if (!it || it.status === "processing") return;
+    setItem(idx, { status: "processing" });
+    runOne(it.file, idx);
+  };
+
+  const downloadAll = useCallback(async () => {
+    if (!batch) return;
+    const files = batch.items
+      .filter((it) => it.blob)
+      .map((it, i) => ({ name: (it.name.replace(/\.[^.]+$/, "") || `image-${i}`) + "-nobg.png", input: it.blob }));
+    if (!files.length) return;
+    const blob = await downloadZip(files).blob();
+    const a = document.createElement("a");
+    a.href = URL.createObjectURL(blob);
+    a.download = "nobg-batch.zip";
+    a.click();
+    setTimeout(() => URL.revokeObjectURL(a.href), 5000);
+  }, [batch]);
+
+  const handleFiles = useCallback(
+    (fileList) => {
+      const files = [...fileList];
+      if (files.length > 1) startBatch(files);
+      else if (files[0]) process(files[0]);
+    },
+    [process, startBatch]
+  );
+
+  /* ---------- 背景合成：cutout + 底色/渐变/模糊原图 + 可选阴影 ---------- */
+  const composeResult = useCallback(
+    async (bgOpt, shadowOpt) => {
+      if (!resultUrl) return null;
+      const cutout = await loadImage(resultUrl);
+      const w = cutout.naturalWidth;
+      const h = cutout.naturalHeight;
+      const canvas = document.createElement("canvas");
+      canvas.width = w;
+      canvas.height = h;
+      const ctx = canvas.getContext("2d");
+      if (bgOpt === "blur" && srcUrl) {
+        const orig = await loadImage(srcUrl);
+        ctx.filter = "blur(24px)";
+        const scale = Math.max(w / orig.naturalWidth, h / orig.naturalHeight);
+        const dw = orig.naturalWidth * scale;
+        const dh = orig.naturalHeight * scale;
+        ctx.drawImage(orig, (w - dw) / 2, (h - dh) / 2, dw, dh);
+        ctx.filter = "none";
+      } else if (bgOpt.startsWith("g:")) {
+        const [c1, c2] = BG_GRADIENTS[Number(bgOpt.slice(2))] || BG_GRADIENTS[0];
+        const grad = ctx.createLinearGradient(0, 0, w, h);
+        grad.addColorStop(0, c1);
+        grad.addColorStop(1, c2);
+        ctx.fillStyle = grad;
+        ctx.fillRect(0, 0, w, h);
+      } else if (bgOpt !== "transparent") {
+        ctx.fillStyle = bgOpt;
+        ctx.fillRect(0, 0, w, h);
+      }
+      if (shadowOpt) {
+        ctx.shadowColor = "rgba(0,0,0,0.45)";
+        ctx.shadowBlur = Math.max(12, w * 0.02);
+        ctx.shadowOffsetY = Math.max(8, h * 0.015);
+      }
+      ctx.drawImage(cutout, 0, 0);
+      const blob = await new Promise((res) => canvas.toBlob(res, "image/png"));
+      return { blob, url: URL.createObjectURL(blob) };
+    },
+    [resultUrl, srcUrl]
+  );
+
+  const bgKey = `${bg}|${withShadow}`;
+  useEffect(() => {
+    if (phase !== "done" || !resultUrl) return;
+    let cancelled = false;
+    const key = bgKey;
+    if (bg === "transparent" && !withShadow) {
+      // 透明 = 原始抠图结果，直接复用，无需合成
+      setComposed((old) => {
+        if (old && old.url && old.url !== resultUrl) URL.revokeObjectURL(old.url);
+        return { key, url: resultUrl, blob: null };
+      });
+      return;
+    }
+    composeResult(bg, withShadow).then((r) => {
+      if (cancelled || !r) return;
+      setComposed((old) => {
+        if (old && old.url && old.url !== resultUrl) URL.revokeObjectURL(old.url);
+        return { key, url: r.url, blob: r.blob };
+      });
+    });
+    return () => {
+      cancelled = true;
+    };
+  }, [bgKey, phase, resultUrl, bg, withShadow, composeResult]);
+
   const download = useCallback(() => {
     if (!resultUrl || !srcBlob.current) return;
     const base = srcBlob.current.name.replace(/\.[^.]+$/, "") || "image";
     const a = document.createElement("a");
-    a.href = resultUrl;
+    a.href = composed && composed.key === bgKey ? composed.url : resultUrl;
     a.download = base + t.fileNameSuffix;
     a.click();
-  }, [resultUrl, t]);
+  }, [resultUrl, composed, bgKey, t]);
 
   /* clipboard paste support */
   useEffect(() => {
@@ -260,7 +423,7 @@ export default function App() {
   return (
     <div className="page">
       <header className="nav">
-        <a className="nav-brand" href={lang === "zh" ? "/" : "/en/"}>
+        <a className="nav-brand" href={pathFor(lang, null)}>
           <img className="nav-logo" src="/logo.svg" alt="" width="26" height="26" />
           {SITE_NAME}
         </a>
@@ -311,7 +474,7 @@ export default function App() {
               onDrop={(e) => {
                 e.preventDefault();
                 setDragOver(false);
-                process(e.dataTransfer.files?.[0]);
+                handleFiles(e.dataTransfer.files);
               }}
               role="button"
               tabIndex={0}
@@ -335,9 +498,10 @@ export default function App() {
                 ref={fileRef}
                 type="file"
                 accept="image/*"
+                multiple
                 hidden
                 onChange={(e) => {
-                  process(e.target.files?.[0]);
+                  handleFiles(e.target.files);
                   e.target.value = "";
                 }}
               />
@@ -363,7 +527,44 @@ export default function App() {
           {phase === "done" && srcUrl && resultUrl && (
             <div className="result">
               <div className="result-label">{home.done}</div>
-              <CompareSlider before={srcUrl} after={resultUrl} lang={lang} />
+              <CompareSlider before={srcUrl} after={composed?.url || resultUrl} lang={lang} />
+              <div className="bg-toolbar">
+                <span className="bg-title">{home.bgTitle}</span>
+                <button
+                  className={`swatch swatch-transparent ${bg === "transparent" && !withShadow ? "swatch-active" : ""}`}
+                  title={home.bgTransparent}
+                  onClick={() => {
+                    setBg("transparent");
+                    setWithShadow(false);
+                  }}
+                />
+                {BG_COLORS.map((c) => (
+                  <button
+                    key={c}
+                    className={`swatch ${bg === c ? "swatch-active" : ""}`}
+                    style={{ background: c }}
+                    onClick={() => setBg(c)}
+                  />
+                ))}
+                {BG_GRADIENTS.map((g, i) => (
+                  <button
+                    key={i}
+                    className={`swatch ${bg === `g:${i}` ? "swatch-active" : ""}`}
+                    style={{ background: `linear-gradient(135deg, ${g[0]}, ${g[1]})` }}
+                    onClick={() => setBg(`g:${i}`)}
+                  />
+                ))}
+                <button
+                  className={`swatch swatch-blur ${bg === "blur" ? "swatch-active" : ""}`}
+                  title={home.bgBlur}
+                  onClick={() => setBg("blur")}
+                >
+                  🌫️
+                </button>
+                <button className={`pill ${withShadow ? "pill-active" : ""}`} onClick={() => setWithShadow(!withShadow)}>
+                  ◌ {home.bgShadow}
+                </button>
+              </div>
               <div className="result-actions">
                 <button className="btn btn-primary btn-lg" onClick={download}>
                   ⬇ {home.download}
@@ -372,6 +573,53 @@ export default function App() {
                   {home.newImage}
                 </button>
               </div>
+            </div>
+          )}
+
+          {phase === "batch" && batch && (
+            <div className="batch">
+              <ul className="batch-list">
+                {batch.items.map((it, i) => (
+                  <li key={i} className={`batch-item batch-${it.status}`}>
+                    <span className="batch-status">
+                      {it.status === "done" ? "✅" : it.status === "processing" ? "⚙️" : it.status === "failed" ? "❌" : "⏳"}
+                    </span>
+                    <span className="batch-name">{it.name}</span>
+                    <span className="batch-label">
+                      {it.status === "waiting" && home.qWaiting}
+                      {it.status === "processing" && home.qProcessing}
+                      {it.status === "done" && home.qDone}
+                      {it.status === "failed" && home.qFailed}
+                    </span>
+                    {it.status === "done" && (
+                      <a
+                        className="batch-dl"
+                        href={it.url}
+                        download={it.name.replace(/\.[^.]+$/, "") + "-nobg.png"}
+                        title={home.download}
+                      >
+                        ⬇
+                      </a>
+                    )}
+                    {it.status === "failed" && (
+                      <button className="batch-retry" onClick={() => retryOne(i)}>
+                        {home.qRetry}
+                      </button>
+                    )}
+                  </li>
+                ))}
+              </ul>
+              {batch.items.length === BATCH_FREE && !batch.done && <div className="batch-cap">{home.batchCap}</div>}
+              {batch.done && (
+                <div className="result-actions">
+                  <button className="btn btn-primary btn-lg" onClick={downloadAll}>
+                    ⬇ {home.downloadAll}
+                  </button>
+                  <button className="btn btn-ghost" onClick={reset}>
+                    {home.batchNew}
+                  </button>
+                </div>
+              )}
             </div>
           )}
 

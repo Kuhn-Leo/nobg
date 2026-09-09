@@ -576,6 +576,155 @@ body {
   color: var(--text);
 }
 
+/* 背景选择工具栏 */
+.bg-toolbar {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 18px;
+}
+
+.bg-title {
+  color: var(--muted);
+  font-size: 13px;
+  margin-right: 4px;
+}
+
+.swatch {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  border: 2px solid #ffffff30;
+  cursor: pointer;
+  padding: 0;
+  font-size: 14px;
+  line-height: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: transform 0.12s, border-color 0.12s;
+}
+
+.swatch:hover {
+  transform: scale(1.12);
+}
+
+.swatch-transparent {
+  background:
+    conic-gradient(#ffffff30 25%, transparent 0 50%, #ffffff30 0 75%, transparent 0) 0 0 / 12px 12px,
+    #ffffff08;
+}
+
+.swatch-blur {
+  background: #ffffff10;
+}
+
+.swatch-active {
+  border-color: #fff;
+  box-shadow: 0 0 0 3px #8b5cf6aa;
+  transform: scale(1.12);
+}
+
+.pill {
+  border: 1px solid var(--card-border);
+  background: #ffffff10;
+  color: var(--muted);
+  border-radius: 999px;
+  padding: 7px 14px;
+  font-size: 13px;
+  cursor: pointer;
+  transition: all 0.15s;
+}
+
+.pill:hover {
+  color: var(--text);
+}
+
+.pill-active {
+  background: var(--grad);
+  color: #fff;
+  border-color: transparent;
+}
+
+/* 批量处理 */
+.batch {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.batch-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.batch-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 14px;
+  border: 1px solid var(--card-border);
+  border-radius: 10px;
+  background: var(--bg-2);
+  font-size: 13.5px;
+}
+
+.batch-done { border-color: #22c55e55; }
+.batch-failed { border-color: #ef444455; }
+.batch-processing { border-color: #8b5cf655; }
+
+.batch-status {
+  flex-shrink: 0;
+  font-size: 15px;
+}
+
+.batch-name {
+  flex: 1;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  color: var(--text);
+}
+
+.batch-label {
+  color: var(--muted);
+  font-size: 12.5px;
+  flex-shrink: 0;
+}
+
+.batch-dl {
+  flex-shrink: 0;
+  text-decoration: none;
+  color: var(--accent-2);
+  font-size: 15px;
+  padding: 2px 6px;
+}
+
+.batch-retry {
+  flex-shrink: 0;
+  background: #ffffff10;
+  color: var(--text);
+  border: 1px solid var(--card-border);
+  border-radius: 8px;
+  padding: 3px 10px;
+  font-size: 12px;
+  cursor: pointer;
+}
+
+.batch-cap {
+  text-align: center;
+  color: #facc15cc;
+  font-size: 12.5px;
+}
+
 /* legal pages */
 .legal-updated {
   color: #9aa1b599;
