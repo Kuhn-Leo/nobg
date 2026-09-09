@@ -73,7 +73,7 @@ git push -u origin main
 
 ## 第 5 步：上线验收清单
 
-- [ ] `https://nobg.org` HTTPS 正常，默认英文首页，抠图全流程可用（首次下载约 40MB 模型属正常）
+- [ ] `https://nobg.org` HTTPS 正常，默认英文首页，抠图全流程可用（首次下载约 20MB 模型属正常）
 - [ ] `/zh/` 及 4 个用例页 × 2 语言（英文在根、中文在 /zh/）直接刷新均不 404
 - [ ] `https://nobg.org/sitemap.xml`、`/robots.txt` 可访问且域名正确
 - [ ] `www.nobg.org` 正常访问（或 301 到裸域）

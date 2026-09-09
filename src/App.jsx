@@ -3,7 +3,7 @@ import { removeBackground, preload } from "@imgly/background-removal";
 import { downloadZip } from "client-zip";
 import MaskEditor from "./MaskEditor.jsx";
 import { i18n } from "./i18n.js";
-import { SITE_URL, SITE_NAME, pathFor } from "./site.js";
+import { SITE_URL, SITE_NAME, pathFor, AI_CONFIG } from "./site.js";
 import { LANGS } from "./langs.js";
 import { USECASES } from "./usecases.js";
 import { LEGAL_PAGES } from "./legal.js";
@@ -168,7 +168,7 @@ export default function App() {
      首次使用体感从"选完图等几分钟"变成"直接出结果"。已缓存的会瞬间跳过。 */
   useEffect(() => {
     const timer = setTimeout(() => {
-      preload({ device: "cpu" }).catch(() => {});
+      preload({ ...AI_CONFIG }).catch(() => {});
     }, 2000);
     return () => clearTimeout(timer);
   }, []);
@@ -227,7 +227,7 @@ export default function App() {
         for (let attempt = 1; attempt <= MAX_TRIES; attempt++) {
           try {
             blob = await removeBackground(file, {
-              device: "cpu", // WebGPU 在部分环境（IDE 内置浏览器/旧驱动）下会崩溃，稳定优先
+              ...AI_CONFIG, // WebGPU 在部分环境（IDE 内置浏览器/旧驱动）下会崩溃，稳定优先
               progress: (key, current, total) => {
                 if (total > 0) setProgress(Math.round((current / total) * 100));
               },
@@ -296,7 +296,7 @@ export default function App() {
 
   const runOne = useCallback(async (file, idx) => {
     try {
-      const blob = await removeBackground(file, { device: "cpu", output: { format: "image/png" } });
+      const blob = await removeBackground(file, { ...AI_CONFIG, output: { format: "image/png" } });
       setItem(idx, { status: "done", url: URL.createObjectURL(blob), blob });
     } catch (err) {
       console.error(err);
