@@ -14,7 +14,7 @@ export const i18n = {
     dropButton: "选择图片",
     dropPaste: "也可以直接 Ctrl+V 粘贴图片",
     dropBatch: "支持多张图片批量处理，完成后可打包下载 ZIP",
-    dropHint: "支持 JPG / PNG / WebP，首次使用需下载约 20MB 模型",
+    dropHint: "支持 JPG / PNG / WebP，首次使用需下载约 40MB 模型",
     processing: "AI 正在抠图…",
     processingFirst: "首次使用正在下载 AI 模型…（之后会缓存，秒开）",
     done: "完成！拖动中间分割线对比效果",
@@ -64,7 +64,7 @@ export const i18n = {
     faq2A: "不会。整个抠图过程在你的浏览器内完成，图片不经过任何服务器，断网上传前处理好都做不到的事在这里不存在。",
     faq3Q: "为什么第一次处理比较慢？",
     faq3A:
-      "首次使用需要下载约 20MB 的 AI 模型并缓存在浏览器中，之后每次抠图都是本地运行，速度会快很多。",
+      "首次使用需要下载约 40MB 的 AI 模型并缓存在浏览器中，之后每次抠图都是本地运行，速度会快很多。",
     faq4Q: "免费版有水印或次数限制吗？",
     faq4A: "没有水印、没有次数限制、无需注册。付费订阅只面向高清批量导出等进阶需求，个人使用的核心抠图功能永久免费。",
     footer: "个人使用免费 · 无注册 · 隐私安全 — 由浏览器端 AI 驱动",
@@ -86,7 +86,7 @@ export const i18n = {
     dropButton: "Browse image",
     dropPaste: "or paste from clipboard (Ctrl+V)",
     dropBatch: "Drop multiple images for batch processing — download as ZIP",
-    dropHint: "JPG / PNG / WebP · First visit downloads a ~20MB model",
+    dropHint: "JPG / PNG / WebP · First visit downloads a ~40MB model",
     processing: "Removing background…",
     processingFirst: "Downloading AI model (first visit only, then cached)…",
     done: "Done! Drag the divider to compare",
@@ -136,7 +136,7 @@ export const i18n = {
     faq2A: "No. The entire removal process happens inside your browser. Images never touch any server.",
     faq3Q: "Why is the first processing slow?",
     faq3A:
-      "The first visit downloads a ~20MB AI model, which is then cached in your browser. After that, every removal runs locally and is much faster.",
+      "The first visit downloads a ~40MB AI model, which is then cached in your browser. After that, every removal runs locally and is much faster.",
     faq4Q: "Does the free version have watermarks or limits?",
     faq4A: "No watermarks, no daily limits, no signup. The future paid plan only covers HD batch export and advanced features.",
     footer: "Free for personal use · No signup · Privacy-first — powered by in-browser AI",
@@ -158,7 +158,7 @@ export const i18n = {
     dropButton: "Elegir imagen",
     dropPaste: "o pega con Ctrl+V",
     dropBatch: "Arrastra varias imágenes para procesarlas en lote — descárgalas en ZIP",
-    dropHint: "JPG / PNG / WebP · La primera visita descarga un modelo de ~20MB",
+    dropHint: "JPG / PNG / WebP · La primera visita descarga un modelo de ~40MB",
     processing: "Quitando el fondo…",
     processingFirst: "Descargando el modelo de IA (solo la primera vez, luego queda en caché)…",
     done: "¡Listo! Arrastra el divisor para comparar",
@@ -209,7 +209,7 @@ export const i18n = {
     faq2A: "No. Todo el proceso ocurre dentro de tu navegador. Las imágenes nunca tocan ningún servidor.",
     faq3Q: "¿Por qué el primer procesamiento es lento?",
     faq3A:
-      "La primera visita descarga un modelo de IA de ~20MB que queda en caché en tu navegador. Después, cada eliminación se ejecuta localmente y es mucho más rápida.",
+      "La primera visita descarga un modelo de IA de ~40MB que queda en caché en tu navegador. Después, cada eliminación se ejecuta localmente y es mucho más rápida.",
     faq4Q: "¿La versión gratuita tiene marcas de agua o límites?",
     faq4A:
       "Sin marcas de agua, sin límites diarios, sin registro. Los planes de pago solo cubrirán la exportación HD por lotes y funciones avanzadas. La eliminación de fondos para uso personal será gratis para siempre.",
@@ -232,7 +232,7 @@ export const i18n = {
     dropButton: "Escolher imagem",
     dropPaste: "ou cole com Ctrl+V",
     dropBatch: "Envie várias imagens para processar em lote — baixe tudo em ZIP",
-    dropHint: "JPG / PNG / WebP · A primeira visita baixa um modelo de ~20MB",
+    dropHint: "JPG / PNG / WebP · A primeira visita baixa um modelo de ~40MB",
     processing: "Removendo o fundo…",
     processingFirst: "Baixando o modelo de IA (só na primeira vez, depois fica em cache)…",
     done: "Pronto! Arraste o divisor para comparar",
@@ -283,7 +283,7 @@ export const i18n = {
     faq2A: "Não. Todo o processo acontece dentro do seu navegador. As fotos nunca passam por nenhum servidor.",
     faq3Q: "Por que o primeiro processamento é lento?",
     faq3A:
-      "A primeira visita baixa um modelo de IA de ~20MB que fica em cache no navegador. Depois disso, cada remoção roda localmente e é muito mais rápida.",
+      "A primeira visita baixa um modelo de IA de ~40MB que fica em cache no navegador. Depois disso, cada remoção roda localmente e é muito mais rápida.",
     faq4Q: "A versão gratuita tem marca d'água ou limites?",
     faq4A:
       "Sem marca d'água, sem limites diários, sem cadastro. Os planos pagos cobrirão apenas exportação HD em lote e recursos avançados. A remoção de fundo para uso pessoal será grátis para sempre.",
@@ -306,7 +306,7 @@ export const i18n = {
     dropButton: "Bild auswählen",
     dropPaste: "oder mit Strg+V einfügen",
     dropBatch: "Mehrere Bilder für Stapelverarbeitung — als ZIP herunterladen",
-    dropHint: "JPG / PNG / WebP · Der erste Besuch lädt ein ~20MB Modell",
+    dropHint: "JPG / PNG / WebP · Der erste Besuch lädt ein ~40MB Modell",
     processing: "Hintergrund wird entfernt…",
     processingFirst: "KI-Modell wird geladen (nur beim ersten Besuch, danach zwischengespeichert)…",
     done: "Fertig! Ziehe den Regler zum Vergleichen",
@@ -357,7 +357,7 @@ export const i18n = {
     faq2A: "Nein. Der gesamte Prozess läuft in deinem Browser. Bilder berühren nie einen Server.",
     faq3Q: "Warum ist die erste Verarbeitung langsam?",
     faq3A:
-      "Beim ersten Besuch wird ein ~20MB KI-Modell geladen und im Browser zwischengespeichert. Danach läuft jede Freistellung lokal und deutlich schneller.",
+      "Beim ersten Besuch wird ein ~40MB KI-Modell geladen und im Browser zwischengespeichert. Danach läuft jede Freistellung lokal und deutlich schneller.",
     faq4Q: "Gibt es Wasserzeichen oder Limits in der Gratisversion?",
     faq4A:
       "Keine Wasserzeichen, keine Tageslimits, keine Anmeldung. Kostenpflichtige Pläne betreffen nur HD-Stapelverarbeitung und Premium-Funktionen. Das Freistellen für den Privatgebrauch bleibt dauerhaft kostenlos.",
@@ -380,7 +380,7 @@ export const i18n = {
     dropButton: "画像を選択",
     dropPaste: "Ctrl+V で貼り付けもOK",
     dropBatch: "複数画像の一括処理に対応 — ZIPでダウンロードできます",
-    dropHint: "JPG / PNG / WebP 対応 · 初回アクセス時のみ約20MBのモデルをダウンロード",
+    dropHint: "JPG / PNG / WebP 対応 · 初回アクセス時のみ約40MBのモデルをダウンロード",
     processing: "背景を削除中…",
     processingFirst: "AIモデルをダウンロード中（初回のみ、以降はキャッシュ）…",
     done: "完了！つまみをドラッグして比較できます",
@@ -431,7 +431,7 @@ export const i18n = {
     faq2A: "いいえ。処理はすべてブラウザ内で完結します。画像がサーバーに送信されることはありません。",
     faq3Q: "初回の処理が遅いのはなぜですか？",
     faq3A:
-      "初回のみ約20MBのAIモデルをダウンロードしてブラウザにキャッシュします。以降はローカル実行のため大幅に速くなります。",
+      "初回のみ約40MBのAIモデルをダウンロードしてブラウザにキャッシュします。以降はローカル実行のため大幅に速くなります。",
     faq4Q: "無料版に透かしや回数制限はありますか？",
     faq4A:
       "透かしなし、回数制限なし、登録不要です。有料プランはHD一括書き出しなどの高度な機能のみ対象で、個人利用の背景削除は永久無料です。",
@@ -454,7 +454,7 @@ export const i18n = {
     dropButton: "Pilih gambar",
     dropPaste: "atau tempel dengan Ctrl+V",
     dropBatch: "Dukungan pemrosesan batch multi-gambar — unduh sebagai ZIP",
-    dropHint: "JPG / PNG / WebP · Kunjungan pertama mengunduh model ~20MB",
+    dropHint: "JPG / PNG / WebP · Kunjungan pertama mengunduh model ~40MB",
     processing: "Menghapus background…",
     processingFirst: "Mengunduh model AI (hanya kunjungan pertama, lalu di-cache)…",
     done: "Selesai! Geser pembatas untuk membandingkan",
@@ -505,7 +505,7 @@ export const i18n = {
     faq2A: "Tidak. Seluruh proses terjadi di dalam browser Anda. Gambar tidak pernah menyentuh server mana pun.",
     faq3Q: "Mengapa pemrosesan pertama lambat?",
     faq3A:
-      "Kunjungan pertama mengunduh model AI ~20MB yang di-cache di browser. Setelah itu, setiap penghapusan berjalan lokal dan jauh lebih cepat.",
+      "Kunjungan pertama mengunduh model AI ~40MB yang di-cache di browser. Setelah itu, setiap penghapusan berjalan lokal dan jauh lebih cepat.",
     faq4Q: "Apakah versi gratis ada watermark atau batasan?",
     faq4A:
       "Tanpa watermark, tanpa batas harian, tanpa daftar. Paket berbayar hanya untuk ekspor HD massal dan fitur lanjutan. Penghapusan background untuk penggunaan pribadi gratis selamanya.",
