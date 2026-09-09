@@ -158,6 +158,7 @@ export default function App() {
   const [withShadow, setWithShadow] = useState(false);
   const [composed, setComposed] = useState(null); // { key, url, blob } 合成后的预览/下载图
   const [batch, setBatch] = useState(null); // { items: [{name,file,url,blob,status}], done }
+  const [pending, setPending] = useState(null); // 批量确认预览：[{file,url,name}]
 
   /* 进页面 2 秒后后台预加载 AI 模型：用户挑图的时间正好覆盖下载，
      首次使用体感从"选完图等几分钟"变成"直接出结果"。已缓存的会瞬间跳过。 */
@@ -252,6 +253,10 @@ export default function App() {
     setWithShadow(false);
     setComposed(null);
     setBatch(null);
+    setPending((old) => {
+      old?.forEach((p) => URL.revokeObjectURL(p.url));
+      return null;
+    });
     setResultUrl((old) => {
       if (old) URL.revokeObjectURL(old);
       return null;
@@ -325,12 +330,42 @@ export default function App() {
 
   const handleFiles = useCallback(
     (fileList) => {
-      const files = [...fileList];
-      if (files.length > 1) startBatch(files);
-      else if (files[0]) process(files[0]);
+      const files = [...fileList].filter((f) => f.type.startsWith("image/") && f.size <= MAX_SIZE);
+      if (files.length > 1) {
+        // 多选 → 先进入确认预览，用户可删除选错的图片再开始
+        setPending(files.map((f) => ({ file: f, url: URL.createObjectURL(f), name: f.name })));
+        setPhase("batch-preview");
+      } else if (files[0]) process(files[0]);
     },
-    [process, startBatch]
+    [process]
   );
+
+  const removePending = (idx) => {
+    setPending((old) => {
+      if (!old) return old;
+      URL.revokeObjectURL(old[idx].url);
+      const rest = old.filter((_, i) => i !== idx);
+      if (!rest.length) {
+        setPhase("idle");
+        return null;
+      }
+      return rest;
+    });
+  };
+
+  const startFromPending = () => {
+    if (!pending || !pending.length) return;
+    const files = pending.map((p) => p.file);
+    pending.forEach((p) => URL.revokeObjectURL(p.url));
+    setPending(null);
+    startBatch(files);
+  };
+
+  const cancelPending = () => {
+    pending?.forEach((p) => URL.revokeObjectURL(p.url));
+    setPending(null);
+    setPhase("idle");
+  };
 
   /* ---------- 背景合成：cutout + 底色/渐变/模糊原图 + 可选阴影 ---------- */
   const composeResult = useCallback(
@@ -493,6 +528,7 @@ export default function App() {
                 {home.dropButton}
               </button>
               <div className="drop-paste">{home.dropPaste}</div>
+              <div className="drop-batch">⚡ {home.dropBatch}</div>
               <div className="drop-hint">{home.dropHint}</div>
               <input
                 ref={fileRef}
@@ -570,6 +606,35 @@ export default function App() {
                   ⬇ {home.download}
                 </button>
                 <button className="btn btn-ghost" onClick={reset}>
+                  {home.newImage}
+                </button>
+              </div>
+            </div>
+          )}
+
+          {phase === "batch-preview" && pending && (
+            <div className="batch-preview">
+              <div className="pending-grid">
+                {pending.map((p, i) => (
+                  <div key={i} className={`pending-item ${i >= BATCH_FREE ? "pending-over" : ""}`}>
+                    <img src={p.url} alt={p.name} />
+                    <button className="pending-remove" onClick={() => removePending(i)} aria-label="remove">
+                      ✕
+                    </button>
+                    {i >= BATCH_FREE && <span className="pending-flag">{home.overCap}</span>}
+                    <span className="pending-name">{p.name}</span>
+                  </div>
+                ))}
+              </div>
+              <div className="result-actions">
+                <button
+                  className="btn btn-primary btn-lg"
+                  disabled={!pending.length}
+                  onClick={startFromPending}
+                >
+                  ⚙ {home.startBatch}（{Math.min(pending.length, BATCH_FREE)}）
+                </button>
+                <button className="btn btn-ghost" onClick={cancelPending}>
                   {home.newImage}
                 </button>
               </div>

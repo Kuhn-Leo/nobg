@@ -177,6 +177,21 @@ body {
   font-size: 13px;
 }
 
+.drop-batch {
+  margin-top: 10px;
+  color: var(--accent-2);
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.drop-batch {
+  display: inline-block;
+  background: #22d3ee14;
+  border: 1px solid #22d3ee33;
+  border-radius: 999px;
+  padding: 6px 14px;
+}
+
 .drop-hint {
   margin-top: 6px;
   color: #9aa1b599;
@@ -646,6 +661,83 @@ body {
   background: var(--grad);
   color: #fff;
   border-color: transparent;
+}
+
+/* 批量确认预览 */
+.batch-preview {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+.pending-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 14px;
+  justify-content: center;
+}
+
+.pending-item {
+  position: relative;
+  width: 110px;
+}
+
+.pending-item img {
+  width: 110px;
+  height: 110px;
+  object-fit: cover;
+  border-radius: 12px;
+  border: 1px solid var(--card-border);
+  display: block;
+}
+
+.pending-remove {
+  position: absolute;
+  top: -7px;
+  right: -7px;
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  border: none;
+  background: #ef4444;
+  color: #fff;
+  font-size: 12px;
+  cursor: pointer;
+  box-shadow: 0 2px 8px #00000066;
+  line-height: 1;
+}
+
+.pending-remove:hover {
+  background: #dc2626;
+  transform: scale(1.1);
+}
+
+.pending-over img {
+  opacity: 0.35;
+}
+
+.pending-flag {
+  position: absolute;
+  bottom: 30px;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 10px;
+  background: #ef4444e6;
+  color: #fff;
+  padding: 2px 8px;
+  border-radius: 999px;
+  white-space: nowrap;
+}
+
+.pending-name {
+  display: block;
+  font-size: 11px;
+  color: var(--muted);
+  margin-top: 5px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 /* 批量处理 */
