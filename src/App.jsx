@@ -1,6 +1,7 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 import { removeBackground, preload } from "@imgly/background-removal";
 import { downloadZip } from "client-zip";
+import MaskEditor from "./MaskEditor.jsx";
 import { i18n } from "./i18n.js";
 import { SITE_URL, SITE_NAME, pathFor } from "./site.js";
 import { LANGS } from "./langs.js";
@@ -158,6 +159,9 @@ export default function App() {
   const [withShadow, setWithShadow] = useState(false);
   const [composed, setComposed] = useState(null); // { key, url, blob } 合成后的预览/下载图
   const [batch, setBatch] = useState(null); // { items: [{name,file,url,blob,status}], done }
+  const [editing, setEditing] = useState(false); // Magic Brush 编辑中
+  const [editedCutout, setEditedCutout] = useState(null); // 修边后的 cutout blob URL
+  const [editGen, setEditGen] = useState(0); // 修边代数，驱动合成管线刷新
   const [pending, setPending] = useState(null); // 批量确认预览：[{file,url,name}]
 
   /* 进页面 2 秒后后台预加载 AI 模型：用户挑图的时间正好覆盖下载，
@@ -247,12 +251,27 @@ export default function App() {
     [lang]
   );
 
+  const applyEdit = useCallback((url) => {
+    setEditedCutout((old) => {
+      if (old) URL.revokeObjectURL(old);
+      return url;
+    });
+    setEditGen((g) => g + 1);
+    setEditing(false);
+    trackEvent("mask_edit_applied");
+  }, []);
+
   const reset = useCallback(() => {
     setPhase("idle");
     setBg("transparent");
     setWithShadow(false);
     setComposed(null);
     setBatch(null);
+    setEditing(false);
+    setEditedCutout((old) => {
+      if (old) URL.revokeObjectURL(old);
+      return null;
+    });
     setPending((old) => {
       old?.forEach((p) => URL.revokeObjectURL(p.url));
       return null;
@@ -367,11 +386,12 @@ export default function App() {
     setPhase("idle");
   };
 
-  /* ---------- 背景合成：cutout + 底色/渐变/模糊原图 + 可选阴影 ---------- */
+  /* ---------- 背景合成：cutout(可被 Magic Brush 修改) + 底色/渐变/模糊原图 + 可选阴影 ---------- */
+  const cutoutSrc = editedCutout || resultUrl;
   const composeResult = useCallback(
     async (bgOpt, shadowOpt) => {
-      if (!resultUrl) return null;
-      const cutout = await loadImage(resultUrl);
+      if (!cutoutSrc) return null;
+      const cutout = await loadImage(cutoutSrc);
       const w = cutout.naturalWidth;
       const h = cutout.naturalHeight;
       const canvas = document.createElement("canvas");
@@ -406,42 +426,42 @@ export default function App() {
       const blob = await new Promise((res) => canvas.toBlob(res, "image/png"));
       return { blob, url: URL.createObjectURL(blob) };
     },
-    [resultUrl, srcUrl]
+    [cutoutSrc, srcUrl]
   );
 
-  const bgKey = `${bg}|${withShadow}`;
+  const bgKey = `${bg}|${withShadow}|${editGen}`;
   useEffect(() => {
-    if (phase !== "done" || !resultUrl) return;
+    if (phase !== "done" || !cutoutSrc) return;
     let cancelled = false;
     const key = bgKey;
     if (bg === "transparent" && !withShadow) {
       // 透明 = 原始抠图结果，直接复用，无需合成
       setComposed((old) => {
-        if (old && old.url && old.url !== resultUrl) URL.revokeObjectURL(old.url);
-        return { key, url: resultUrl, blob: null };
+        if (old && old.url && old.url !== cutoutSrc) URL.revokeObjectURL(old.url);
+        return { key, url: cutoutSrc, blob: null };
       });
       return;
     }
     composeResult(bg, withShadow).then((r) => {
       if (cancelled || !r) return;
       setComposed((old) => {
-        if (old && old.url && old.url !== resultUrl) URL.revokeObjectURL(old.url);
+        if (old && old.url && old.url !== cutoutSrc) URL.revokeObjectURL(old.url);
         return { key, url: r.url, blob: r.blob };
       });
     });
     return () => {
       cancelled = true;
     };
-  }, [bgKey, phase, resultUrl, bg, withShadow, composeResult]);
+  }, [bgKey, phase, cutoutSrc, bg, withShadow, composeResult]);
 
   const download = useCallback(() => {
-    if (!resultUrl || !srcBlob.current) return;
+    if (!cutoutSrc || !srcBlob.current) return;
     const base = srcBlob.current.name.replace(/\.[^.]+$/, "") || "image";
     const a = document.createElement("a");
-    a.href = composed && composed.key === bgKey ? composed.url : resultUrl;
+    a.href = composed && composed.key === bgKey ? composed.url : cutoutSrc;
     a.download = base + t.fileNameSuffix;
     a.click();
-  }, [resultUrl, composed, bgKey, t]);
+  }, [cutoutSrc, composed, bgKey, t]);
 
   /* clipboard paste support */
   useEffect(() => {
@@ -562,53 +582,70 @@ export default function App() {
 
           {phase === "done" && srcUrl && resultUrl && (
             <div className="result">
-              <div className="result-label">{home.done}</div>
-              <CompareSlider before={srcUrl} after={composed?.url || resultUrl} lang={lang} />
-              <div className="bg-toolbar">
-                <span className="bg-title">{home.bgTitle}</span>
-                <button
-                  className={`swatch swatch-transparent ${bg === "transparent" && !withShadow ? "swatch-active" : ""}`}
-                  title={home.bgTransparent}
-                  onClick={() => {
-                    setBg("transparent");
-                    setWithShadow(false);
-                  }}
+              {editing ? (
+                <MaskEditor
+                  originalUrl={srcUrl}
+                  cutoutUrl={resultUrl}
+                  onApply={applyEdit}
+                  onCancel={() => setEditing(false)}
+                  t={home}
                 />
-                {BG_COLORS.map((c) => (
-                  <button
-                    key={c}
-                    className={`swatch ${bg === c ? "swatch-active" : ""}`}
-                    style={{ background: c }}
-                    onClick={() => setBg(c)}
-                  />
-                ))}
-                {BG_GRADIENTS.map((g, i) => (
-                  <button
-                    key={i}
-                    className={`swatch ${bg === `g:${i}` ? "swatch-active" : ""}`}
-                    style={{ background: `linear-gradient(135deg, ${g[0]}, ${g[1]})` }}
-                    onClick={() => setBg(`g:${i}`)}
-                  />
-                ))}
-                <button
-                  className={`swatch swatch-blur ${bg === "blur" ? "swatch-active" : ""}`}
-                  title={home.bgBlur}
-                  onClick={() => setBg("blur")}
-                >
-                  🌫️
-                </button>
-                <button className={`pill ${withShadow ? "pill-active" : ""}`} onClick={() => setWithShadow(!withShadow)}>
-                  ◌ {home.bgShadow}
-                </button>
-              </div>
-              <div className="result-actions">
-                <button className="btn btn-primary btn-lg" onClick={download}>
-                  ⬇ {home.download}
-                </button>
-                <button className="btn btn-ghost" onClick={reset}>
-                  {home.newImage}
-                </button>
-              </div>
+              ) : (
+                <>
+                  <div className="result-label">{home.done}</div>
+                  <CompareSlider before={srcUrl} after={composed?.url || cutoutSrc} lang={lang} />
+                  <div className="bg-toolbar">
+                    <span className="bg-title">{home.bgTitle}</span>
+                    <button
+                      className={`swatch swatch-transparent ${bg === "transparent" && !withShadow ? "swatch-active" : ""}`}
+                      title={home.bgTransparent}
+                      onClick={() => {
+                        setBg("transparent");
+                        setWithShadow(false);
+                      }}
+                    />
+                    {BG_COLORS.map((c) => (
+                      <button
+                        key={c}
+                        className={`swatch ${bg === c ? "swatch-active" : ""}`}
+                        style={{ background: c }}
+                        onClick={() => setBg(c)}
+                      />
+                    ))}
+                    {BG_GRADIENTS.map((g, i) => (
+                      <button
+                        key={i}
+                        className={`swatch ${bg === `g:${i}` ? "swatch-active" : ""}`}
+                        style={{ background: `linear-gradient(135deg, ${g[0]}, ${g[1]})` }}
+                        onClick={() => setBg(`g:${i}`)}
+                      />
+                    ))}
+                    <button
+                      className={`swatch swatch-blur ${bg === "blur" ? "swatch-active" : ""}`}
+                      title={home.bgBlur}
+                      onClick={() => setBg("blur")}
+                    >
+                      🌫️
+                    </button>
+                    <button className={`pill ${withShadow ? "pill-active" : ""}`} onClick={() => setWithShadow(!withShadow)}>
+                      ◌ {home.bgShadow}
+                    </button>
+                    <button className="pill" onClick={() => setEditing(true)}>
+                      🖊 {home.maskEdit}
+                    </button>
+                  </div>
+                </>
+              )}
+              {!editing && (
+                <div className="result-actions">
+                  <button className="btn btn-primary btn-lg" onClick={download}>
+                    ⬇ {home.download}
+                  </button>
+                  <button className="btn btn-ghost" onClick={reset}>
+                    {home.newImage}
+                  </button>
+                </div>
+              )}
             </div>
           )}
 

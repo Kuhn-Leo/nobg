@@ -663,6 +663,118 @@ body {
   border-color: transparent;
 }
 
+/* Magic Brush 修边编辑器 */
+.mask-editor {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.me-toolbar {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.me-mode {
+  border: 1px solid var(--card-border);
+  background: #ffffff10;
+  color: var(--muted);
+  border-radius: 10px;
+  padding: 8px 14px;
+  font-size: 13px;
+  cursor: pointer;
+  transition: all 0.15s;
+}
+
+.me-mode-active.me-erase {
+  background: #ef444426;
+  border-color: #ef4444;
+  color: #fca5a5;
+}
+
+.me-mode-active.me-restore {
+  background: #22c55e26;
+  border-color: #22c55e;
+  color: #86efac;
+}
+
+.me-size {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: var(--muted);
+  font-size: 12.5px;
+}
+
+.me-size input[type="range"] {
+  width: 120px;
+  accent-color: var(--accent);
+}
+
+.me-btn {
+  border: 1px solid var(--card-border);
+  background: #ffffff10;
+  color: var(--text);
+  border-radius: 10px;
+  padding: 8px 14px;
+  font-size: 13px;
+  cursor: pointer;
+}
+
+.me-btn:disabled {
+  opacity: 0.4;
+  cursor: default;
+}
+
+.me-btn:hover:not(:disabled) {
+  background: #ffffff1c;
+}
+
+.me-apply {
+  background: var(--grad);
+  border-color: transparent;
+  color: #fff;
+  font-weight: 600;
+}
+
+.me-apply:hover:not(:disabled) {
+  box-shadow: 0 6px 20px #8b5cf666;
+}
+
+.me-spacer {
+  width: 12px;
+}
+
+.me-canvas-wrap {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  background:
+    conic-gradient(#ffffff18 25%, transparent 0 50%, #ffffff18 0 75%, transparent 0) 0 0 / 20px 20px,
+    #ffffff06;
+  border: 1px solid var(--card-border);
+  border-radius: 12px;
+  padding: 10px;
+  overflow: hidden;
+}
+
+.me-canvas {
+  max-width: 100%;
+  height: auto;
+}
+
+.me-cursor {
+  position: absolute;
+  border: 2px solid #ef4444;
+  border-radius: 50%;
+  pointer-events: none;
+  box-shadow: 0 0 0 1px #00000088, inset 0 0 0 1px #00000088;
+}
+
 /* 批量确认预览 */
 .batch-preview {
   width: 100%;
