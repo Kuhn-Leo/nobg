@@ -1,4 +1,5 @@
 // 从语言注册表和页面数据自动生成 public/sitemap.xml：node scripts/gen-sitemap.mjs
+// 格式：Google 推荐的多语言写法 —— 每个语言变体 URL 一条 <loc>，各自带完整 hreflang 互指
 import { writeFileSync } from "node:fs";
 import { fileURLToPath } from "node:url";
 import path from "node:path";
@@ -10,25 +11,28 @@ import { LEGAL_PAGES } from "../src/legal.js";
 const pages = ["", ...USECASES.map((u) => u.slug), ...LEGAL_PAGES.map((p) => p.slug)];
 
 const esc = (u) => u.replace(/&/g, "&amp;");
-// 首页 slug 为空，必须传 null（pathFor 对空 slug 会拼出双斜杠）
 const clean = (u) => esc((SITE_URL + u).replace(/([^:])\/{2,}/g, "$1/"));
-const urlEntries = pages
-  .map((slug) => {
-    const pseudo = slug ? { slug } : null;
+
+const urlEntries = [];
+for (const slug of pages) {
+  const pseudo = slug ? { slug } : null;
+  for (const lang of LANGS) {
     const alternates = LANGS.map(
       (l) => `    <xhtml:link rel="alternate" hreflang="${l.code}" href="${clean(pathFor(l.code, pseudo))}"/>`
     ).join("\n");
     const xDefault = `    <xhtml:link rel="alternate" hreflang="x-default" href="${clean(pathFor("en", pseudo))}"/>`;
-    return `  <url>\n    <loc>${clean(pathFor("en", pseudo))}</loc>\n${xDefault}\n${alternates}\n  </url>`;
-  })
-  .join("\n");
+    urlEntries.push(
+      `  <url>\n    <loc>${clean(pathFor(lang.code, pseudo))}</loc>\n${xDefault}\n${alternates}\n  </url>`
+    );
+  }
+}
 
 const xml = `<?xml version="1.0" encoding="UTF-8"?>
 <!-- 自动生成：node scripts/gen-sitemap.mjs（请勿手改） -->
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:xhtml="http://www.w3.org/1999/xhtml">
-${urlEntries}
+${urlEntries.join("\n")}
 </urlset>
 `;
 
 writeFileSync(path.join(path.dirname(fileURLToPath(import.meta.url)), "../public/sitemap.xml"), xml);
-console.log(`sitemap.xml generated: ${pages.length} pages × ${LANGS.length} languages`);
+console.log(`sitemap.xml generated: ${pages.length} pages × ${LANGS.length} languages = ${urlEntries.length} URLs`);
