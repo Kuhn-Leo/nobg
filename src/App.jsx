@@ -8,6 +8,7 @@ import { LANGS } from "./langs.js";
 import { USECASES } from "./usecases.js";
 import { LEGAL_PAGES } from "./legal.js";
 import { trackPageview, trackEvent } from "./ga.js";
+import { ADS, initGlobalAds, injectAdScript, bannerContainerId } from "./ads.js";
 
 const MAX_SIZE = 20 * 1024 * 1024;
 const BATCH_FREE = 5; // 免费版每批上限（订阅上线后作为付费墙边界）
@@ -137,6 +138,21 @@ function loadImage(url) {
   });
 }
 
+/* ---------- Adsterra Banner 广告位 ---------- */
+
+function AdsterraBanner({ src, className }) {
+  const ref = useRef(null);
+  useEffect(() => {
+    if (!src || !ref.current) return;
+    const container = document.createElement("div");
+    container.id = bannerContainerId(src);
+    ref.current.appendChild(container);
+    injectAdScript(src);
+  }, [src]);
+  if (!src) return null;
+  return <div ref={ref} className={className} />;
+}
+
 /* ---------- app ---------- */
 
 export default function App() {
@@ -163,6 +179,11 @@ export default function App() {
   const [editedCutout, setEditedCutout] = useState(null); // 修边后的 cutout blob URL
   const [editGen, setEditGen] = useState(0); // 修边代数，驱动合成管线刷新
   const [pending, setPending] = useState(null); // 批量确认预览：[{file,url,name}]
+
+  /* 全局广告（Popunder / Social Bar）：延迟注入，保护首屏与 SEO */
+  useEffect(() => {
+    initGlobalAds();
+  }, []);
 
   /* 进页面 2 秒后后台预加载 AI 模型：用户挑图的时间正好覆盖下载，
      首次使用体感从"选完图等几分钟"变成"直接出结果"。已缓存的会瞬间跳过。 */
@@ -736,6 +757,9 @@ export default function App() {
           )}
         </section>
 
+        {/* Banner 广告位：工具卡下方 */}
+        <AdsterraBanner src={ADS.bannerBelowTool} className="ad-slot ad-banner-below-tool" />
+
         {/* 用例内链（SEO：每页可见，爬虫可发现全部落地页） */}
         <section className="usecase-links" aria-label={lang === "zh" ? "更多用例" : "More use cases"}>
           {USECASES.map((u) => (
@@ -806,6 +830,9 @@ export default function App() {
             <p>{home.feat3Desc}</p>
           </div>
         </section>
+
+        {/* Native Banner 广告位：FAQ 前 */}
+        <AdsterraBanner src={ADS.nativeScript} className="ad-slot ad-native" />
 
         {!uc && (
           <section className="seo card">
