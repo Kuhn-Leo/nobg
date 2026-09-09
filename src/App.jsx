@@ -8,7 +8,7 @@ import { LANGS } from "./langs.js";
 import { USECASES } from "./usecases.js";
 import { LEGAL_PAGES } from "./legal.js";
 import { trackPageview, trackEvent } from "./ga.js";
-import { ADS, initGlobalAds, injectAdScript, bannerContainerId } from "./ads.js";
+import { ADS, initGlobalAds, injectAdScript } from "./ads.js";
 
 const MAX_SIZE = 20 * 1024 * 1024;
 const BATCH_FREE = 5; // 免费版每批上限（订阅上线后作为付费墙边界）
@@ -138,17 +138,39 @@ function loadImage(url) {
   });
 }
 
-/* ---------- Adsterra Banner 广告位 ---------- */
+/* ---------- Adsterra 广告位 ---------- */
 
-function AdsterraBanner({ src, className }) {
+// atOptions 型 Banner（300×250 / 728×90）：同页多个会互相覆盖全局变量，
+// 因此每个 Banner 隔离在独立 iframe（srcdoc）中，与 Adsterra 原生 iframe 格式一致
+function AtOptionsBanner({ unit, className }) {
+  const ref = useRef(null);
+  useEffect(() => {
+    if (!unit?.invoke || !ref.current) return;
+    const srcdoc =
+      `<body style="margin:0">` +
+      `<script>atOptions = { key: '${unit.key}', format: 'iframe', height: ${unit.height}, width: ${unit.width}, params: {} };</script>` +
+      `<script src="${unit.invoke}"></script>`;
+    const iframe = document.createElement("iframe");
+    iframe.srcdoc = srcdoc;
+    iframe.title = "advertisement";
+    iframe.loading = "lazy";
+    iframe.style.cssText = `width:${unit.width}px;height:${unit.height}px;border:0;display:block;`;
+    ref.current.appendChild(iframe);
+  }, [unit]);
+  if (!unit?.invoke) return null;
+  return <div ref={ref} className={className} style={{ minHeight: unit.height }} />;
+}
+
+// Native Banner（container div + invoke.js）
+function InvokeBanner({ src, containerId, className }) {
   const ref = useRef(null);
   useEffect(() => {
     if (!src || !ref.current) return;
     const container = document.createElement("div");
-    container.id = bannerContainerId(src);
+    container.id = containerId;
     ref.current.appendChild(container);
     injectAdScript(src);
-  }, [src]);
+  }, [src, containerId]);
   if (!src) return null;
   return <div ref={ref} className={className} />;
 }
@@ -757,8 +779,10 @@ export default function App() {
           )}
         </section>
 
-        {/* Banner 广告位：工具卡下方 */}
-        <AdsterraBanner src={ADS.bannerBelowTool} className="ad-slot ad-banner-below-tool" />
+        {/* Banner 广告位：工具卡下方（300×250，全设备） */}
+        <AtOptionsBanner unit={ADS.banner300} className="ad-slot" />
+
+        {/* 用例内链（SEO：每页可见，爬虫可发现全部落地页） */}
 
         {/* 用例内链（SEO：每页可见，爬虫可发现全部落地页） */}
         <section className="usecase-links" aria-label={lang === "zh" ? "更多用例" : "More use cases"}>
@@ -832,7 +856,7 @@ export default function App() {
         </section>
 
         {/* Native Banner 广告位：FAQ 前 */}
-        <AdsterraBanner src={ADS.nativeScript} className="ad-slot ad-native" />
+        <InvokeBanner src={ADS.nativeScript} containerId={ADS.nativeContainerId} className="ad-slot ad-native" />
 
         {!uc && (
           <section className="seo card">
@@ -856,6 +880,10 @@ export default function App() {
       </main>
 
       <footer className="footer">
+        {/* Banner 728×90：页脚上方（仅桌面端） */}
+        <div className="ad-desktop-only">
+          <AtOptionsBanner unit={ADS.banner728} className="ad-slot" />
+        </div>
         {home.footer}
         <div className="footer-links">
           <a href={pathFor(lang, LEGAL_PAGES[0])}>{home.footerTerms}</a>

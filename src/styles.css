@@ -608,6 +608,20 @@ body {
   display: none; /* 未配置广告时完全不占位 */
 }
 
+.ad-desktop-only {
+  display: none;
+}
+
+@media (min-width: 768px) {
+  .ad-desktop-only {
+    display: block;
+  }
+}
+
+.ad-slot iframe {
+  max-width: 100%;
+}
+
 /* 背景选择工具栏 */
 .bg-toolbar {
   display: flex;
