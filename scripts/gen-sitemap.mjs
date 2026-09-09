@@ -10,15 +10,16 @@ import { LEGAL_PAGES } from "../src/legal.js";
 const pages = ["", ...USECASES.map((u) => u.slug), ...LEGAL_PAGES.map((p) => p.slug)];
 
 const esc = (u) => u.replace(/&/g, "&amp;");
+// 首页 slug 为空，必须传 null（pathFor 对空 slug 会拼出双斜杠）
+const clean = (u) => esc((SITE_URL + u).replace(/([^:])\/{2,}/g, "$1/"));
 const urlEntries = pages
   .map((slug) => {
-    const pseudo = { slug };
+    const pseudo = slug ? { slug } : null;
     const alternates = LANGS.map(
-      (l) =>
-        `    <xhtml:link rel="alternate" hreflang="${l.code}" href="${esc(SITE_URL + pathFor(l.code, pseudo))}"/>`
+      (l) => `    <xhtml:link rel="alternate" hreflang="${l.code}" href="${clean(pathFor(l.code, pseudo))}"/>`
     ).join("\n");
-    const xDefault = `    <xhtml:link rel="alternate" hreflang="x-default" href="${esc(SITE_URL + pathFor("en", pseudo))}"/>`;
-    return `  <url>\n    <loc>${esc(SITE_URL + pathFor("en", pseudo))}</loc>\n${xDefault}\n${alternates}\n  </url>`;
+    const xDefault = `    <xhtml:link rel="alternate" hreflang="x-default" href="${clean(pathFor("en", pseudo))}"/>`;
+    return `  <url>\n    <loc>${clean(pathFor("en", pseudo))}</loc>\n${xDefault}\n${alternates}\n  </url>`;
   })
   .join("\n");
 

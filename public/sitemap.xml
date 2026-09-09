@@ -2,15 +2,15 @@
 <!-- 自动生成：node scripts/gen-sitemap.mjs（请勿手改） -->
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <url>
-    <loc>https://nobg.org//</loc>
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://nobg.org//"/>
-    <xhtml:link rel="alternate" hreflang="en" href="https://nobg.org//"/>
-    <xhtml:link rel="alternate" hreflang="zh" href="https://nobg.org/zh//"/>
-    <xhtml:link rel="alternate" hreflang="es" href="https://nobg.org/es//"/>
-    <xhtml:link rel="alternate" hreflang="pt" href="https://nobg.org/pt//"/>
-    <xhtml:link rel="alternate" hreflang="de" href="https://nobg.org/de//"/>
-    <xhtml:link rel="alternate" hreflang="ja" href="https://nobg.org/ja//"/>
-    <xhtml:link rel="alternate" hreflang="id" href="https://nobg.org/id//"/>
+    <loc>https://nobg.org/</loc>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://nobg.org/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://nobg.org/"/>
+    <xhtml:link rel="alternate" hreflang="zh" href="https://nobg.org/zh/"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://nobg.org/es/"/>
+    <xhtml:link rel="alternate" hreflang="pt" href="https://nobg.org/pt/"/>
+    <xhtml:link rel="alternate" hreflang="de" href="https://nobg.org/de/"/>
+    <xhtml:link rel="alternate" hreflang="ja" href="https://nobg.org/ja/"/>
+    <xhtml:link rel="alternate" hreflang="id" href="https://nobg.org/id/"/>
   </url>
   <url>
     <loc>https://nobg.org/photoshop/</loc>
