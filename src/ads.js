@@ -40,7 +40,7 @@ export function injectAdScript(src) {
   s.type = "text/javascript";
   s.async = true;
   s.setAttribute("data-cfasync", "false");
-  s.src = src.startsWith("//") ? src : "//" + src;
+  s.src = src; // Adsterra 官方代码可能是协议相对(//)或完整 https:// 地址，原样使用
   document.body.appendChild(s);
   loaded.add(src);
 }
