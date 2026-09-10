@@ -563,8 +563,21 @@ body {
   color: #fca5a5;
 }
 
-.error-icon {
-  font-size: 40px;
+.error-mascot {
+  width: 130px;
+  height: auto;
+  animation: mascot-float 3s ease-in-out infinite;
+}
+
+@keyframes mascot-float {
+  0%, 100% { transform: translateY(0) rotate(-3deg); }
+  50% { transform: translateY(-10px) rotate(3deg); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .error-mascot {
+    animation: none;
+  }
 }
 
 /* footer */

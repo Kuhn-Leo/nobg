@@ -392,14 +392,24 @@ export default function App() {
 
   const handleFiles = useCallback(
     (fileList) => {
-      const files = [...fileList].filter((f) => f.type.startsWith("image/") && f.size <= MAX_SIZE);
-      if (files.length > 1) {
+      // 部分环境/合成文件可能没有 MIME type，扩展名兜底判定
+      const isImage = (f) =>
+        f.type.startsWith("image/") || /\.(png|jpe?g|webp|gif|bmp|avif)$/i.test(f.name);
+      const all = [...fileList].filter(isImage);
+      const valid = all.filter((f) => f.size <= MAX_SIZE);
+      // 全部无效（如单张超大图）→ 明确报错，不静默失败
+      if (all.length && !valid.length) {
+        setErrorMsg(i18n[lang].errorTooLarge);
+        setPhase("error");
+        return;
+      }
+      if (valid.length > 1) {
         // 多选 → 先进入确认预览，用户可删除选错的图片再开始
-        setPending(files.map((f) => ({ file: f, url: URL.createObjectURL(f), name: f.name })));
+        setPending(valid.map((f) => ({ file: f, url: URL.createObjectURL(f), name: f.name })));
         setPhase("batch-preview");
-      } else if (files[0]) process(files[0]);
+      } else if (valid[0]) process(valid[0]);
     },
-    [process]
+    [process, lang]
   );
 
   const removePending = (idx) => {
@@ -770,7 +780,7 @@ export default function App() {
 
           {phase === "error" && (
             <div className="error-box">
-              <div className="error-icon">⚠️</div>
+              <img className="error-mascot" src="/brand/ghost.png" alt="" />
               <div>{errorMsg}</div>
               <button className="btn btn-ghost" onClick={reset}>
                 {home.newImage}
